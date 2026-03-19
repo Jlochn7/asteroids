@@ -36,6 +36,9 @@ def main():
         # Clear the screen (for demonstration purposes)
         screen.fill("black")
 
+        # Update the player state
+        player.update(dt)
+
         # Draw the player
         player.draw(screen)
 

@@ -2,6 +2,7 @@ import pygame
 from constants import SCREEN_HEIGHT
 from constants import SCREEN_WIDTH
 from logger import log_state
+from player import Player
 
 
 def main():
@@ -19,6 +20,9 @@ def main():
     # Set up the display
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    # Create player object
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
     # Main game loop
     while (True):
         # Log the game state at the start of each frame
@@ -31,6 +35,9 @@ def main():
 
         # Clear the screen (for demonstration purposes)
         screen.fill("black")
+
+        # Draw the player
+        player.draw(screen)
 
         # Update game state and draw sprites here
         pygame.display.flip()

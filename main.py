@@ -1,8 +1,10 @@
 import pygame
+from asteroid import Asteroid
 from constants import SCREEN_HEIGHT
 from constants import SCREEN_WIDTH
 from logger import log_state
 from player import Player
+from asteroidfield import AsteroidField
 
 
 def main():
@@ -23,16 +25,25 @@ def main():
     # Set up sprite groups for managing updatable and drawable objects
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     
     # Add the player to the updatable and drawable groups   
     # This allows the player to be updated and drawn each frame without needing to manage them separately
     # This must be done before creating any player objects 
     Player.containers = (updatable, drawable)
 
+    # Add asteroid to asteroids, updatable, and drawable groups
+    Asteroid.containers = (asteroids, updatable, drawable)
+    
+    # Set asteroid field to be updatable so it can spawn asteroids
+    AsteroidField.containers = (updatable,)
+    
     # Create player object
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
-        
+    # Create asteroid field object
+    field = AsteroidField()
+
     # Main game loop
     while (True):
         # Log the game state at the start of each frame

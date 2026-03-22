@@ -20,9 +20,19 @@ def main():
     # Set up the display
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+    # Set up sprite groups for managing updatable and drawable objects
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    
+    # Add the player to the updatable and drawable groups   
+    # This allows the player to be updated and drawn each frame without needing to manage them separately
+    # This must be done before creating any player objects 
+    Player.containers = (updatable, drawable)
+
     # Create player object
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
 
+        
     # Main game loop
     while (True):
         # Log the game state at the start of each frame
@@ -37,10 +47,11 @@ def main():
         screen.fill("black")
 
         # Update the player state
-        player.update(dt)
+        updatable.update(dt)
 
         # Draw the player
-        player.draw(screen)
+        for thing in drawable:
+            thing.draw(screen)
 
         # Update game state and draw sprites here
         pygame.display.flip()

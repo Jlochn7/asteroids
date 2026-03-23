@@ -2,12 +2,14 @@ from constants import PLAYER_RADIUS, LINE_WIDTH, PLAYER_SHOOT_SPEED, PLAYER_SPEE
 from circleshape import CircleShape
 import pygame
 from shot import Shot
+from constants import PLAYER_SHOOT_COOLDOWN_SECONDS
 
 class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.line_width = LINE_WIDTH
         self.rotation = 0
+        self.cool_down_timer = 0
 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -28,7 +30,8 @@ class Player(CircleShape):
     # Updates the player's position and rotation based on user input
     def update(self, dt):
         keys = pygame.key.get_pressed()
-
+        self.cool_down_timer -= dt
+        
         if keys[pygame.K_a]:
             self.rotate((-dt))
 
@@ -42,7 +45,12 @@ class Player(CircleShape):
             self.move(dt)
         
         if keys[pygame.K_SPACE]:
-            self.shoot()
+            if self.cool_down_timer > 0:
+                return
+            else:
+                self.shoot()
+                self.cool_down_timer = PLAYER_SHOOT_COOLDOWN_SECONDS
+                
 
     # Moves the player in the direction they are currently facing
     def move(self, dt):

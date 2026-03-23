@@ -11,4 +11,5 @@ wheels/
 
 # ignore per project spec
 game_state.jsonl
+game_events.jsonl
 

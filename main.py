@@ -1,14 +1,11 @@
 import sys
-
 import pygame
-from asteroid import Asteroid
-from constants import SCREEN_HEIGHT
-from constants import SCREEN_WIDTH
-from logger import log_state
-from logger import log_event
 from player import Player
-from asteroidfield import AsteroidField
 from shot import Shot
+from asteroidfield import AsteroidField
+from logger import log_state, log_event
+from constants import *
+from asteroid import Asteroid
 
 
 def main():
@@ -76,6 +73,15 @@ def main():
                 print("Game Over!")
                 sys.exit()
                 return
+        
+        # Check for collisions between shots and asteroids
+        for asteroid in asteroids:
+            for shot in shots:
+                collision = shot.collide_with(asteroid)
+                if collision:
+                    log_event("asteroid_shot")
+                    asteroid.split()
+                    shot.kill()
 
         # Draw the player
         for thing in drawable:
